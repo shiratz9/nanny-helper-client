@@ -540,8 +540,12 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
                 })
                 .setCancelable(false)
                 .create();
-        exitOnIdleDialog.show();
-        scheduleExitRunnable();
+         try {
+             exitOnIdleDialog.show();
+             scheduleExitRunnable();
+         } catch (Exception e) {
+             gracefulExit();
+         }
     };
 
     private void scheduleExitRunnable() {

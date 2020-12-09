@@ -121,6 +121,8 @@ public class JanusSessionPollService extends Service {
     @Override
     public void onDestroy() {
         state = Const.STATE_DISCONNECTING;
-        currentCall.cancel();
+        if (currentCall != null) {
+            currentCall.cancel();
+        }
     }
 }
