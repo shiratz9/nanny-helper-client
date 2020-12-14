@@ -78,6 +78,8 @@ public class JanusStreamingPlugin extends JanusPlugin {
         body.setVideopt(100);
         body.setVideortpmap("H264/90000");
         body.setVideobufferkf(false);
+        // Magic to make the video working in Firefox and Safari
+        body.setVideofmtp("profile-level-id=42e01f;packetization-mode=1");
         createRequest.setBody(body);
 
         Response<JanusStreamingCreateResponse> response = ServerApiHelper.execute(apiInstance.createStreaming(sessionId, getHandleId(), createRequest), "create streaming");
