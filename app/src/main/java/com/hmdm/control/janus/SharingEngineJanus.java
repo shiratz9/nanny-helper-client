@@ -69,7 +69,7 @@ public class SharingEngineJanus extends SharingEngine {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... voids) {
-                int result = janusSession.create();
+                int result = janusSession.create(context);
                 if (result != Const.SUCCESS) {
                     errorReason = janusSession.getErrorReason();
                     return result;

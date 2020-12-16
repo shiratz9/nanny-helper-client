@@ -178,7 +178,12 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                            startActivityForResult(intent, 0);
+                            try {
+                                startActivityForResult(intent, 0);
+                            } catch (Exception e) {
+                                // Accessibility settings cannot be opened
+                                reportAccessibilityUnavailable();
+                            }
                         }
                     })
                     .setCancelable(false)
@@ -187,6 +192,20 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         } else {
             configureAndConnect();
         }
+    }
+
+    private void reportAccessibilityUnavailable() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.accessibility_unavailable_error)
+                .setPositiveButton(R.string.button_exit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exitApp();
+                    }
+                })
+                .setCancelable(false)
+                .create()
+                .show();
     }
 
     private void configureAndConnect() {

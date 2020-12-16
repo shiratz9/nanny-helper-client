@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.hmdm.control.Const;
+import com.hmdm.control.R;
 import com.hmdm.control.ServerApiHelper;
 import com.hmdm.control.janus.json.JanusAttachRequest;
 import com.hmdm.control.janus.json.JanusPollResponse;
@@ -81,7 +82,7 @@ public class JanusSession {
     };
 
     // Must be run in the background thread
-    public int create() {
+    public int create(Context context) {
         errorReason = null;
         Response<JanusResponse> response = ServerApiHelper.execute(apiInstance.createSession(new JanusRequest(secret, "create", true)), "create session");
         if (response == null) {
@@ -91,7 +92,11 @@ public class JanusSession {
         if (response.body() != null && response.body().getJanus().equalsIgnoreCase("success") && response.body().getData() != null) {
             sessionId = response.body().getData().getId();
         } else {
-            errorReason = "Server error";
+            if (response.body().getError() != null && response.body().getError().getCode() != null && response.body().getError().getCode() == 403) {
+                errorReason = context.getString(R.string.wrong_secret);
+            } else {
+                errorReason = context.getString(R.string.server_error);
+            }
             Log.w(Const.LOG_TAG, "Wrong server response: " + response.code());
             return Const.SERVER_ERROR;
         }
