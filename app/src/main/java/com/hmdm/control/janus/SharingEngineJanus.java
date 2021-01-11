@@ -86,7 +86,10 @@ public class SharingEngineJanus extends SharingEngine {
                 // The successful flow is continued after creating a data channel
                 janusTextRoomPlugin.createPeerConnection((success, errorReason) -> {
                             if (!success) {
-                                handler.post(() -> completionHandler.onComplete(false, errorReason));
+                                handler.post(() -> {
+                                    completionHandler.onComplete(false, errorReason);
+                                    setState(Const.STATE_DISCONNECTED);
+                                });
                             } else {
                                 dataChannelCreated(context, completionHandler);
                             }

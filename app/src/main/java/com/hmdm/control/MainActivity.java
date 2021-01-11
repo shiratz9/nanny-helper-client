@@ -23,6 +23,8 @@ package com.hmdm.control;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -446,14 +448,39 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         sharingEngine.setUsername(settingsHelper.getString(SettingsHelper.KEY_DEVICE_NAME));
         sharingEngine.connect(this, sessionId, password, (success, errorReason) -> {
             if (!success) {
+                if (errorReason.equals(Const.ERROR_ICE_FAILED)) {
+                    errorReason = getString(R.string.connection_error_ice);
+                }
                 String message = getString(R.string.connection_error, settingsHelper.getString(SettingsHelper.KEY_SERVER_URL), errorReason);
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                reportError(message);
                 editTextSessionId.setText(null);
                 editTextPassword.setText(null);
             }
         });
 
         scheduleExitOnIdle();
+    }
+
+    private void reportError(final String message) {
+//        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setNegativeButton(R.string.copy_message, (dialog1, which) -> {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(Const.LOG_TAG, message);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(MainActivity.this, R.string.message_copied, Toast.LENGTH_LONG).show();
+                    dialog1.dismiss();
+                })
+                .setPositiveButton(R.string.close, (dialog1, which) -> dialog1.dismiss())
+                .create();
+        dialog.show();
+        handler.postDelayed(() -> {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+            }
+        }, 10000);
     }
 
     @Override

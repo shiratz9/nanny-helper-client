@@ -102,8 +102,9 @@ public class JanusTextRoomPlugin extends JanusPlugin {
             @Override
             public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
                 Log.d(Const.LOG_TAG, "Textroom plugin: iceConnectionState changed to " + iceConnectionState);
-                // ICE connection is not implemented properly, but it doesn't matter
-                // because the traffic is going through Janus which is not behind the firewall
+                if (iceConnectionState.equals(PeerConnection.IceConnectionState.FAILED)) {
+                    completionHandler.onComplete(false, Const.ERROR_ICE_FAILED);
+                }
             }
 
             @Override

@@ -26,22 +26,28 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ServerApiHelper {
+    public static String lastError = null;
+
     public static Response execute(Call call, String description) {
         Response response = null;
 
         try {
+            lastError = null;
             response = call.execute();
         } catch (Exception e) {
             Log.w(Const.LOG_TAG, "Failed to " + description + ": " + e.getMessage());
+            lastError = e.getMessage();
             return null;
         }
         if (response == null) {
             Log.w(Const.LOG_TAG, "Failed to " + description + ": network error");
+            lastError = "Network error";
             return null;
         }
 
         if (!response.isSuccessful()) {
             Log.w(Const.LOG_TAG, "Failed to " + description + ": bad server response: " + response.message());
+            lastError = response.message();
             return null;
         }
 

@@ -71,4 +71,6 @@ public class Const {
 
     public static final int DEFAULT_SERVER_PORT = 9443;
     public static final String DEFAULT_SERVER_PATH = "/rtp-web-admin/";
+
+    public static final String ERROR_ICE_FAILED = "iceFailed";
 }

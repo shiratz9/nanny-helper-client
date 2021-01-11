@@ -34,6 +34,7 @@
     <string name="connect">Connect</string>
     <string name="disconnect_exit">Disconnect and exit</string>
     <string name="connection_error">Failed to connect to %s: %s</string>
+    <string name="connection_error_ice">ICE connection failed. Please read README.md how to set up server behind the NAT.</string>
     <string name="server_error">Server error</string>
     <string name="wrong_secret">Wrong secret</string>
     <string name="session_id">Session ID</string>
@@ -85,6 +86,9 @@
     <string name="button_keep_idle">Keep running</string>
     <string name="app_sharing_session_ping_timeout">The remote control session is stopped because there\'s no connection with the server!</string>
     <string name="exit_on_idle">Exit if idle</string>
+    <string name="copy_message">Copy message</string>
+    <string name="message_copied">The error message has been copied to the clipboard</string>
+    <string name="close">Close</string>
     <string name="accessibility_unavailable_error">Oh, no! Looks like Accessibility services required by aPuppet are not available on your device! Please contact the developers at https://apuppet.org and report which is your device model. We hope it will be supported in the future and your help is appreciated!</string>
 
     <string-array name="bitrates">

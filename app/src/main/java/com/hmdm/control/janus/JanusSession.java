@@ -86,7 +86,7 @@ public class JanusSession {
         errorReason = null;
         Response<JanusResponse> response = ServerApiHelper.execute(apiInstance.createSession(new JanusRequest(secret, "create", true)), "create session");
         if (response == null) {
-            errorReason = "Network error";
+            errorReason = ServerApiHelper.lastError;
             return Const.NETWORK_ERROR;
         }
         if (response.body() != null && response.body().getJanus().equalsIgnoreCase("success") && response.body().getData() != null) {
