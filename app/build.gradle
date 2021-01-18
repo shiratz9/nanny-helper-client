@@ -30,8 +30,8 @@ android {
         applicationId "com.hmdm.control"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20
-        versionName "1.20"
+        versionCode 21
+        versionName "1.21"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,6 +44,9 @@ android {
 
         // Build variant displayed on the "About" screen
         buildConfigField("String", "VARIANT", "\"opensource\"")
+
+        // Prefer Google (software) AVC encoder if available
+        buildConfigField("Boolean", "USE_GOOGLE_ENCODER", "false")
     }
 
     buildTypes {

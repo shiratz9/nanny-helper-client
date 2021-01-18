@@ -31,6 +31,7 @@ import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
+import android.media.MediaCodecList;
 import android.media.MediaFormat;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
@@ -38,6 +39,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.util.Range;
 import android.view.Surface;
 
 import androidx.annotation.Nullable;
@@ -50,12 +52,15 @@ import net.majorkernelpanic.streaming.rtp.MediaCodecInputStream;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScreenSharingService extends Service {
     public static String CHANNEL_ID = "com.hmdm.control";
     private static final int NOTIFICATION_ID = 111;
 
     private static final String MIME_TYPE_VIDEO = "video/avc";
+    private static final String GOOGLE_AVC_ENCODER_NAME = "OMX.google.h264.encoder";
 
     private int mScreenDensity;
     private int mScreenWidth;
@@ -285,12 +290,28 @@ public class ScreenSharingService extends Service {
     }
 
     private boolean initRecorder() {
+        Map<String,MediaCodecInfo> avcEncoders = queryAvcEncoders();
+        mMediaCodec = null;
+
+        if (BuildConfig.USE_GOOGLE_ENCODER && avcEncoders.containsKey(GOOGLE_AVC_ENCODER_NAME)) {
+            try {
+                mMediaCodec = MediaCodec.createByCodecName(GOOGLE_AVC_ENCODER_NAME);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
-            mMediaCodec = MediaCodec.createEncoderByType(MIME_TYPE_VIDEO);
+            if (mMediaCodec == null) {
+                // Use best match for the codec (usually a manufacturer-specific hardware codec)
+                mMediaCodec = MediaCodec.createEncoderByType(MIME_TYPE_VIDEO);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
+
+        logCodecCapabilities(mMediaCodec);
 
         MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE_VIDEO, mScreenWidth, mScreenHeight);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mVideoBitrate);
@@ -309,6 +330,79 @@ public class ScreenSharingService extends Service {
         }
         mInputSurface = mMediaCodec.createInputSurface();
         return true;
+    }
+
+    private Map<String,MediaCodecInfo> queryAvcEncoders() {
+        MediaCodecList codecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
+        MediaCodecInfo[] infoList = codecList.getCodecInfos();
+        Map<String,MediaCodecInfo> avcEncoders = new HashMap<>();
+
+        for (int i = 0; i < infoList.length; i++) {
+            MediaCodecInfo codecInfo = infoList[i];
+
+            if (!codecInfo.isEncoder()) {
+                continue;
+            }
+
+            String[] types = codecInfo.getSupportedTypes();
+
+            for (int j = 0; j < types.length; j++) {
+                if (types[j].equalsIgnoreCase(MIME_TYPE_VIDEO)) {
+                    avcEncoders.put(codecInfo.getName(), codecInfo);
+                    Log.i(Const.LOG_TAG, "Found AVC encoder: " + codecInfo.getName());
+                    break;
+                }
+            }
+        }
+        return avcEncoders;
+    }
+
+    private void logCodecCapabilities(MediaCodec mediaCodec) {
+        MediaCodecInfo info = mediaCodec.getCodecInfo();
+
+        String infoStr =
+                "name:" + info.getName() +
+                " isVendor:" + info.isVendor() +
+                " isSoftwareOnly:" + info.isSoftwareOnly() +
+                " isHardwareAccelerated:" + info.isHardwareAccelerated();
+
+        MediaCodecInfo.CodecCapabilities c = info.getCapabilitiesForType(MIME_TYPE_VIDEO);
+
+        MediaCodecInfo.VideoCapabilities vc = c.getVideoCapabilities();
+        Range<Integer> bitrateRange = vc.getBitrateRange();
+        if (bitrateRange != null) {
+            infoStr += " bitrateRange:" + bitrateRange.toString();
+        }
+        Range<Integer> widthRange = vc.getSupportedWidths();
+        if (widthRange != null) {
+            infoStr += " widthRange:" + widthRange.toString();
+        }
+        Range<Integer> heightRange = vc.getSupportedHeights();
+        if (heightRange != null) {
+            infoStr += " heightRange:" + heightRange.toString();
+        }
+        infoStr += " widthAlignment:" + vc.getWidthAlignment();
+        infoStr += " heightAlignment:" + vc.getHeightAlignment();
+
+        int[] fmts = c.colorFormats;
+        MediaCodecInfo.CodecProfileLevel[] levels = c.profileLevels;
+        infoStr += " colorFormats:{";
+        for (int i = 0; i < fmts.length; i++) {
+            infoStr += "" + fmts[i];
+            if (i < fmts.length - 1) {
+                infoStr += ",";
+            }
+        }
+        infoStr += "} profileLevels:{";
+        for (int i = 0; i < levels.length; i++) {
+            infoStr += "" + levels[i].profile + "/" + levels[i].level;
+            if (i < levels.length - 1) {
+                infoStr += ",";
+            }
+        }
+        infoStr += "}";
+
+        Log.d(Const.LOG_TAG, infoStr);
     }
 
 }
