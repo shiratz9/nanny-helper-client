@@ -311,7 +311,10 @@ public class ScreenSharingService extends Service {
             return false;
         }
 
-        logCodecCapabilities(mMediaCodec);
+        try {
+            logCodecCapabilities(mMediaCodec);
+        } catch (Exception e) {
+        }
 
         MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE_VIDEO, mScreenWidth, mScreenHeight);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mVideoBitrate);
@@ -360,11 +363,12 @@ public class ScreenSharingService extends Service {
     private void logCodecCapabilities(MediaCodec mediaCodec) {
         MediaCodecInfo info = mediaCodec.getCodecInfo();
 
-        String infoStr =
-                "name:" + info.getName() +
-                " isVendor:" + info.isVendor() +
-                " isSoftwareOnly:" + info.isSoftwareOnly() +
-                " isHardwareAccelerated:" + info.isHardwareAccelerated();
+        String infoStr = "name:" + info.getName();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            infoStr += " isVendor:" + info.isVendor() +
+                    " isSoftwareOnly:" + info.isSoftwareOnly() +
+                    " isHardwareAccelerated:" + info.isHardwareAccelerated();
+        }
 
         MediaCodecInfo.CodecCapabilities c = info.getCapabilitiesForType(MIME_TYPE_VIDEO);
 
