@@ -289,32 +289,40 @@ public class ScreenSharingService extends Service {
                 /*Handler*/);
     }
 
-    private boolean initRecorder() {
+    public static MediaCodec createAvcEncoder() {
         Map<String,MediaCodecInfo> avcEncoders = queryAvcEncoders();
-        mMediaCodec = null;
+        MediaCodec mediaCodec = null;
 
         if (BuildConfig.USE_GOOGLE_ENCODER && avcEncoders.containsKey(GOOGLE_AVC_ENCODER_NAME)) {
             try {
-                mMediaCodec = MediaCodec.createByCodecName(GOOGLE_AVC_ENCODER_NAME);
+                mediaCodec = MediaCodec.createByCodecName(GOOGLE_AVC_ENCODER_NAME);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         try {
-            if (mMediaCodec == null) {
+            if (mediaCodec == null) {
                 // Use best match for the codec (usually a manufacturer-specific hardware codec)
-                mMediaCodec = MediaCodec.createEncoderByType(MIME_TYPE_VIDEO);
+                mediaCodec = MediaCodec.createEncoderByType(MIME_TYPE_VIDEO);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
+
+        return mediaCodec;
+    }
+
+    private boolean initRecorder() {
+        mMediaCodec = createAvcEncoder();
 
         try {
             logCodecCapabilities(mMediaCodec);
         } catch (Exception e) {
         }
+
+        alignScreenForCodec(mMediaCodec);
 
         MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE_VIDEO, mScreenWidth, mScreenHeight);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mVideoBitrate);
@@ -331,11 +339,14 @@ public class ScreenSharingService extends Service {
             e.printStackTrace();
             return false;
         }
+
+        MediaCodecInfo.CodecProfileLevel[] profileLevels = mMediaCodec.getCodecInfo().getCapabilitiesForType(MIME_TYPE_VIDEO).profileLevels;
+
         mInputSurface = mMediaCodec.createInputSurface();
         return true;
     }
 
-    private Map<String,MediaCodecInfo> queryAvcEncoders() {
+    private static Map<String,MediaCodecInfo> queryAvcEncoders() {
         MediaCodecList codecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
         MediaCodecInfo[] infoList = codecList.getCodecInfos();
         Map<String,MediaCodecInfo> avcEncoders = new HashMap<>();
@@ -360,7 +371,7 @@ public class ScreenSharingService extends Service {
         return avcEncoders;
     }
 
-    private void logCodecCapabilities(MediaCodec mediaCodec) {
+    public static void logCodecCapabilities(MediaCodec mediaCodec) {
         MediaCodecInfo info = mediaCodec.getCodecInfo();
 
         String infoStr = "name:" + info.getName();
@@ -409,4 +420,20 @@ public class ScreenSharingService extends Service {
         Log.d(Const.LOG_TAG, infoStr);
     }
 
+    private void alignScreenForCodec(MediaCodec mediaCodec) {
+        try {
+            MediaCodecInfo.VideoCapabilities vc =
+                    mediaCodec.getCodecInfo()
+                            .getCapabilitiesForType(MIME_TYPE_VIDEO)
+                            .getVideoCapabilities();
+            int widthAlignment = vc.getWidthAlignment();
+            int heightAlignment = vc.getHeightAlignment();
+            mScreenWidth &= -widthAlignment;
+            mScreenHeight &= -heightAlignment;
+            Log.d(Const.LOG_TAG, "ScreenSharingService: aligned video size: width=" + mScreenWidth + ", height=" + mScreenHeight);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

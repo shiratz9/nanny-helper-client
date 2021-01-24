@@ -79,6 +79,11 @@ public class JanusStreamingPlugin extends JanusPlugin {
         body.setVideortpmap("H264/90000");
         body.setVideobufferkf(false);
         // Magic to make the video working in Firefox and Safari
+        // https://stackoverflow.com/questions/22960928/identify-h264-profile-and-level-from-profile-level-id-in-sdp
+        // https://stackoverflow.com/questions/23494168/h264-profile-iop-explained
+        // profile_idc 0x42 = 66 = Baseline profile
+        // profile-iop 0xe0 = constraint_set0_flag=1, constraint_set1_flag=1, constraint_set2_flag=1, constraint_set3_flag=0
+        // 1f = 31 = level 3.1
         body.setVideofmtp("profile-level-id=42e01f;packetization-mode=1");
         createRequest.setBody(body);
 

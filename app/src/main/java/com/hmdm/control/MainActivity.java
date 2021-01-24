@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         sharingEngine.setUsername(settingsHelper.getString(SettingsHelper.KEY_DEVICE_NAME));
         sharingEngine.connect(this, sessionId, password, (success, errorReason) -> {
             if (!success) {
-                if (errorReason.equals(Const.ERROR_ICE_FAILED)) {
+                if (errorReason != null && errorReason.equals(Const.ERROR_ICE_FAILED)) {
                     errorReason = getString(R.string.connection_error_ice);
                 }
                 String message = getString(R.string.connection_error, settingsHelper.getString(SettingsHelper.KEY_SERVER_URL), errorReason);
