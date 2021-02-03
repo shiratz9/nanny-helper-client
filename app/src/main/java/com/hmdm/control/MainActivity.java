@@ -474,13 +474,16 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
                 })
                 .setPositiveButton(R.string.close, (dialog1, which) -> dialog1.dismiss())
                 .create();
-        dialog.show();
-        handler.postDelayed(() -> {
-            try {
-                dialog.dismiss();
-            } catch (Exception e) {
-            }
-        }, 10000);
+        try {
+            dialog.show();
+            handler.postDelayed(() -> {
+                try {
+                    dialog.dismiss();
+                } catch (Exception e) {
+                }
+            }, 10000);
+        } catch (Exception e) {
+        }
     }
 
     @Override
