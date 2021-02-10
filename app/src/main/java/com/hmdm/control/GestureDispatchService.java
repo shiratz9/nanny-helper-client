@@ -71,6 +71,11 @@ public class GestureDispatchService extends AccessibilityService {
             // Empty message?
             return;
         }
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i]
+                    .replace("%2C", ",")
+                    .replace("%25", "%");
+        }
         if (parts[0].equalsIgnoreCase("tap"))  {
             if (parts.length != 4) {
                 Log.w(Const.LOG_TAG, "Wrong gesture event format: '" + message + "' Should be tap,X,Y,duration");
