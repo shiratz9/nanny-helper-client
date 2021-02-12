@@ -25,15 +25,20 @@ import android.accessibilityservice.GestureDescription;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Path;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 public class GestureDispatchService extends AccessibilityService {
     // Sharing state
     private boolean isSharing = false;
 
     @Override
-    public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+    public void onAccessibilityEvent(AccessibilityEvent e) {
+        // Notice: clipboard can't be retrieved by a background service in Android 10 and above.
+        // Therefore we do not include the function of clipboard tracking from the application
     }
 
     @Override
@@ -121,9 +126,68 @@ public class GestureDispatchService extends AccessibilityService {
             performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS);
         } else if (parts[0].equalsIgnoreCase("recents")) {
             performGlobalAction(GLOBAL_ACTION_RECENTS);
+        } else if (parts[0].equalsIgnoreCase("key")) {
+            if (parts.length != 2) {
+                Log.w(Const.LOG_TAG, "Wrong key event format: '" + message + "' Should be key,X");
+                return;
+            }
+            enterText(parts[1]);
+        } else if (parts[0].equalsIgnoreCase("paste")) {
+            if (parts.length != 2) {
+                Log.w(Const.LOG_TAG, "Wrong key event format: '" + message + "' Should be paste,X");
+                return;
+            }
+            enterText(parts[1]);
         } else {
             Log.w(Const.LOG_TAG, "Ignoring wrong gesture event: '" + message + "'");
         }
+    }
+
+    private void enterText(String text) {
+        AccessibilityNodeInfo nodeRoot = getRootInActiveWindow();
+        if (nodeRoot != null) {
+            AccessibilityNodeInfo nodeFocused = findFocusedField(nodeRoot);
+            if (nodeFocused != null) {
+                CharSequence existingText = getExistingText(nodeFocused);
+                String newText = existingText != null ? existingText.toString() : "";
+                newText += text;
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, newText);
+                nodeFocused.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SET_TEXT.getId(), arguments);
+            }
+        }
+    }
+
+    private AccessibilityNodeInfo findFocusedField(AccessibilityNodeInfo node) {
+        if (node.isEditable() && node.isFocused()) {
+            return node;
+        }
+        for (int i = 0; i < node.getChildCount(); i++) {
+            AccessibilityNodeInfo nodeChild = node.getChild(i);
+            AccessibilityNodeInfo nodeFocused = findFocusedField(nodeChild);
+            if (nodeFocused != null) {
+                return nodeFocused;
+            }
+        }
+        return null;
+    }
+
+    private CharSequence getExistingText(AccessibilityNodeInfo node) {
+        if (node.isPassword()) {
+            // getText() for password fields returns dots instead of characters!
+            return null;
+        }
+        // node.getText() returns a hint for text fields (terrible!)
+        // Here's a workaround against this
+        CharSequence hintText = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            hintText = node.getHintText();
+        }
+        CharSequence existingText = node.getText();
+        if (hintText != null && existingText.equals(hintText)) {
+            existingText = null;
+        }
+        return existingText;
     }
 
     private void simulateGesture(Integer x1, Integer y1, Integer x2, Integer y2, int duration) {
