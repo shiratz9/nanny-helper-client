@@ -1,0 +1,117 @@
+<!--
+  ~ aPuppet: Open Source Remote Access Software for Android
+  ~ https://apuppet.org
+  ~
+  ~ Copyright (C) 2020 apuppet.org
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">aPuppet - Fernzugriff</string>
+    <string name="about_title">aPuppet</string>
+    <string name="about_message">\n\nMobiler Agent für den Open Source Android-Fernsteuerungsdienst.\n\nVersion: %s\n\nVariant: %s\n\n(c) 2021 apuppet.org</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_about">Über die App</string>
+    <string name="back_pressed">Tippen Sie auf Startseite, um den Bildschirm auszublenden. Öffnen Sie die Plugin-Aktivität über die Schaltfläche "Letzte", um die Bildschirmfreigabe zu beenden.</string>
+    <string name="accessibility_service_description">Der Eingabehilfedienst wird verwendet, um Touchscreen-Ereignisse für die Fernsteuerung des Geräts zu simulieren.</string>
+    <string name="state_disconnected">Getrennt</string>
+    <string name="state_connecting">Verbinde...</string>
+    <string name="state_connected">Verbunden</string>
+    <string name="state_sharing">Kontrolliert</string>
+    <string name="state_disconnecting">Trenne...</string>
+    <string name="connect">Verbinden</string>
+    <string name="disconnect_exit">Trennen und beenden</string>
+    <string name="connection_error">Fehler bei der Verbindung zu %s: %s</string>
+    <string name="connection_error_ice">ICE-Verbindung fehlgeschlagen. Bitte lesen Sie README.md, wie Sie den Server hinter dem NAT einrichten.</string>
+    <string name="server_error">Serverfehler</string>
+    <string name="wrong_secret">Falsches Geheimnis</string>
+    <string name="session_id">Session-ID</string>
+    <string name="password">Passwort</string>
+    <string name="server_url">Server-URL</string>
+    <string name="server_url_hint">Geben Sie hier die URL ein</string>
+    <string name="secret">Geheimnis</string>
+    <string name="use_default">Standard</string>
+    <string name="use_default_hint">Server-URL und Geheimnis auf ihre Standardwerte zurücksetzen?</string>
+    <string name="button_use_default">Standard</string>
+    <string name="translate_audio">Audio übersetzen</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="frame_rate">Bildrate</string>
+    <string name="enter_correct_url">Bitte geben Sie eine korrekte Server-URL ein, die mit http:// oder https:// beginnt</string>
+    <string name="enter_secret">Bitte geben Sie ein nicht leeres Geheimnis ein</string>
+    <string name="enter_device_name">Bitte geben Sie einen nicht leeren Gerätenamen ein</string>
+    <string name="accessibility_hint">Diese App verwendet den Eingabehilfedienst, um Ereignisse der Benutzeroberfläche zu simulieren. Der Bildschirm mit den Eingabehilfen wird jetzt geöffnet. Bitte erteilen Sie der App Zugriffsberechtigungen.</string>
+    <string name="continue_button">Weiter</string>
+    <string name="device_name">Gerätename</string>
+    <string name="device_name_hint">Z.B. Mein Gerät</string>
+    <string name="src_ip">Geräte-IP</string>
+    <string name="dst_ip">Ziel-IP</string>
+    <string name="dst_ip_hint">Nur zum Testen</string>
+    <string name="hint_connection_error">Beim Verbinden mit %s ist ein Fehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
+    <string name="hint_connecting">Die Verbindung zu %s wird herstellt, bitte warten...</string>
+    <string name="hint_connected">Bereit zur Fernsteuerung. Bitte senden Sie die Server-URL (%s), die Sitzungs-ID und das Kennwort an den Supervisor.</string>
+    <string name="hint_sharing">Ein Supervisor (%s) steuert Ihr Gerät fern!</string>
+    <string name="hint_disconnecting">Die Verbindung wird anmutig geschlossen, bitte warten...</string>
+    <string name="settings_unavailable">Sie können die Einstellungen nicht ändern, wenn Ihr Gerät gesteuert wird. Bitte stoppen Sie zuerst die Fernbedienung.</string>
+    <string name="audio_permission_request">Bitte erlauben Sie dieser App, Audio aufzunehmen, damit Ihre Stimme zum Supervisor übersetzt werden kann.</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="screen_cast_denied">Eine Sitzung wird abgebrochen, da die Screencast-Berechtigung nicht erteilt wurde. Bitte erlauben Sie die Bildschirmfreigabe, um die Fernsteuerungssitzung zu aktivieren!</string>
+    <string name="sharing_error">Der Versuch, den Bildschirm freizugeben, ist fehlgeschlagen! Sieht so aus, als ob die App nicht mit Ihrem Gerät kompatibel ist.</string>
+    <string name="notification_text">Ihr Gerät wird ferngesteuert!</string>
+    <string name="share_start_text">Ihr Gerät wird ferngesteuert!</string>
+    <string name="ok">OK</string>
+    <string name="notify_sharing">Blinken beim\n Freigeben</string>
+    <string name="overlay_hint">Um einen blinkenden Punkt anzuzeigen, wenn das Gerät gesteuert wird, muss die App Überlagerungen zeichnen. Klicken Sie auf "Weiter" und erteilen Sie diese Berechtigung für die App "aPuppet".</string>
+    <string name="notify_sharing_hint">Durch Einstellen von "Blinken beim Freigeben" wird die Qualität der Bildschirmfreigabe verbessert.</string>
+    <string name="connection_failure_hint">Verbindung konnte aufgrund eines internen Fehlers nicht hergestellt werden. Bitte versuchen Sie es erneut oder beenden Sie die App und versuchen Sie es erneut.</string>
+    <string name="send_link">Sitzung-Link senden</string>
+    <string name="send_link_subject">Einladung zur Fernbedienung des Android-Geräts</string>
+    <string name="send_link_message">Stellen Sie über den aPuppet-Dienst eine Remoteverbindung zu meinem Android-Gerät (%s) her: %s</string>
+    <string name="send_link_failed">Fehler beim Teilen eines Links, wenden Sie sich bitte an den technischen Support!</string>
+    <string name="send_link_chooser">Wie sende ich einen Link?</string>
+    <string name="app_idle_warning">Die Anwendung ist inaktiv und wird in %d Sek gestoppt!</string>
+    <string name="app_idle_exit">Die Anwendung wird gestoppt, weil sie inaktiv ist!</string>
+    <string name="button_exit">Beenden</string>
+    <string name="button_keep_idle">Laufen weiter</string>
+    <string name="app_sharing_session_ping_timeout">Die Fernsteuerungssitzung wird gestoppt, da keine Verbindung zum Server besteht!</string>
+    <string name="exit_on_idle">Beenden im\n Leerlauf</string>
+    <string name="copy_message">Kopieren</string>
+    <string name="message_copied">Die Fehlermeldung wurde in die Zwischenablage kopiert</string>
+    <string name="close">Schließen</string>
+    <string name="accessibility_unavailable_error">Ach nein! Es sieht so aus, als ob die von aPuppet benötigten Eingabehilfen auf Ihrem Gerät nicht verfügbar sind! Bitte kontaktieren Sie die Entwickler unter https://apuppet.org und geben Sie an, welches Ihr Gerätemodell ist. Wir hoffen, dass es in Zukunft unterstützt wird und Ihre Hilfe wird geschätzt!</string>
+
+    <string-array name="bitrates">
+        <item>128 kbps</item>
+        <item>256 kbps</item>
+        <item>512 kbps</item>
+        <item>768 kbps</item>
+        <item>1024 kbps</item>
+    </string-array>
+
+    <string-array name="frame_rates">
+        <item>5 fps</item>
+        <item>10 fps</item>
+        <item>15 fps</item>
+        <item>20 fps</item>
+    </string-array>
+
+    <string-array name="idle_timeouts">
+        <item>1 Minute</item>
+        <item>2 Minuten</item>
+        <item>5 Minuten</item>
+        <item>10 Minuten</item>
+        <item>30 Minuten</item>
+        <item>Niemals</item>
+    </string-array>
+</resources>
