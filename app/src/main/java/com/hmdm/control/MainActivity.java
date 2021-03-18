@@ -172,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         updateUI();
 
         startService(new Intent(MainActivity.this, GestureDispatchService.class));
+        checkAccessibility();
+    }
+
+    private void checkAccessibility() {
         if (!Utils.isAccessibilityPermissionGranted(this)) {
             textViewConnect.setVisibility(View.INVISIBLE);
             new AlertDialog.Builder(this)
