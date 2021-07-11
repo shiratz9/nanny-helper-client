@@ -46,6 +46,11 @@ public class ServerApiHelper {
         }
 
         if (!response.isSuccessful()) {
+            if (response.code() == 502) {
+                lastError = "Media server is down";
+                return null;
+            }
+
             Log.w(Const.LOG_TAG, "Failed to " + description + ": bad server response: " + response.message());
             lastError = response.message();
             return null;
