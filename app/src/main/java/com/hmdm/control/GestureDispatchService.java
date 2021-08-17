@@ -243,7 +243,7 @@ public class GestureDispatchService extends AccessibilityService {
                     typeInMiddle = true;
                 } else {
                     // We are at the end; Here Delete will not work and Backspace erases the last character
-                    if (!removeForward) {
+                    if (!removeForward && newText.length() > 0) {
                         newText = newText.substring(0, newText.length() - 1);
                     }
                 }
