@@ -1,8 +1,8 @@
 <!--
-  ~ aPuppet: Open Source Remote Access Software for Android
-  ~ https://apuppet.org
+  ~ Headwind Remote: Open Source Remote Access Software for Android
+  ~ https://headwind-remote.com
   ~
-  ~ Copyright (C) 2020 apuppet.org
+  ~ Copyright (C) 2022 headwind-remote.com
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,13 +15,12 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
   -->
 
 <resources>
-    <string name="app_name">aPuppet - Fernzugriff</string>
-    <string name="about_title">aPuppet</string>
-    <string name="about_message">\n\nMobiler Agent für den Open Source Android-Fernsteuerungsdienst.\n\nVersion: %s\n\nVariant: %s\n\n(c) 2021 apuppet.org</string>
+    <string name="app_name">Headwind Fernzugriff</string>
+    <string name="about_title">Headwind Fernzugriff</string>
+    <string name="about_message">\n\nMobiler Agent für den Open Source Android-Fernsteuerungsdienst.\n\nVersion: %s\n\nVariant: %s\n\n(c) 2022 h-mdm.com</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über die App</string>
     <string name="back_pressed">Tippen Sie auf Startseite, um den Bildschirm auszublenden. Öffnen Sie die Plugin-Aktivität über die Schaltfläche "Letzte", um die Bildschirmfreigabe zu beenden.</string>
@@ -72,12 +71,12 @@
     <string name="share_start_text">Ihr Gerät wird ferngesteuert!</string>
     <string name="ok">OK</string>
     <string name="notify_sharing">Blinken beim\n Freigeben</string>
-    <string name="overlay_hint">Um einen blinkenden Punkt anzuzeigen, wenn das Gerät gesteuert wird, muss die App Überlagerungen zeichnen. Klicken Sie auf "Weiter" und erteilen Sie diese Berechtigung für die App "aPuppet".</string>
+    <string name="overlay_hint">Um einen blinkenden Punkt anzuzeigen, wenn das Gerät gesteuert wird, muss die App Überlagerungen zeichnen. Klicken Sie auf "Weiter" und erteilen Sie diese Berechtigung für die App "Headwind Fernzugriff".</string>
     <string name="notify_sharing_hint">Durch Einstellen von "Blinken beim Freigeben" wird die Qualität der Bildschirmfreigabe verbessert.</string>
     <string name="connection_failure_hint">Verbindung konnte aufgrund eines internen Fehlers nicht hergestellt werden. Bitte versuchen Sie es erneut oder beenden Sie die App und versuchen Sie es erneut.</string>
     <string name="send_link">Sitzung-Link senden</string>
     <string name="send_link_subject">Einladung zur Fernbedienung des Android-Geräts</string>
-    <string name="send_link_message">Stellen Sie über den aPuppet-Dienst eine Remoteverbindung zu meinem Android-Gerät (%s) her: %s</string>
+    <string name="send_link_message">Stellen Sie über den Headwind-Fernzugriff-Dienst eine Remoteverbindung zu meinem Android-Gerät (%s) her: %s</string>
     <string name="send_link_failed">Fehler beim Teilen eines Links, wenden Sie sich bitte an den technischen Support!</string>
     <string name="send_link_chooser">Wie sende ich einen Link?</string>
     <string name="app_idle_warning">Die Anwendung ist inaktiv und wird in %d Sek gestoppt!</string>
@@ -89,7 +88,7 @@
     <string name="copy_message">Kopieren</string>
     <string name="message_copied">Die Fehlermeldung wurde in die Zwischenablage kopiert</string>
     <string name="close">Schließen</string>
-    <string name="accessibility_unavailable_error">Ach nein! Es sieht so aus, als ob die von aPuppet benötigten Eingabehilfen auf Ihrem Gerät nicht verfügbar sind! Bitte kontaktieren Sie die Entwickler unter https://apuppet.org und geben Sie an, welches Ihr Gerätemodell ist. Wir hoffen, dass es in Zukunft unterstützt wird und Ihre Hilfe wird geschätzt!</string>
+    <string name="accessibility_unavailable_error">Ach nein! Es sieht so aus, als ob die von Headwind Fernzugriff benötigten Eingabehilfen auf Ihrem Gerät nicht verfügbar sind! Bitte kontaktieren Sie die Entwickler unter https://headwind-remote.com und geben Sie an, welches Ihr Gerätemodell ist. Wir hoffen, dass es in Zukunft unterstützt wird und Ihre Hilfe wird geschätzt!</string>
 
     <string-array name="bitrates">
         <item>128 kbps</item>
