@@ -32,6 +32,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.WindowManager;
 
 import java.net.MalformedURLException;
@@ -51,6 +52,7 @@ public class Utils {
             accessibilityEnabled = Settings.Secure.getInt(
                     context.getApplicationContext().getContentResolver(),
                     android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            Log.d(Const.LOG_TAG, "Accessibility enabled: " + accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
         }
@@ -60,18 +62,21 @@ public class Utils {
             String settingValue = Settings.Secure.getString(
                     context.getApplicationContext().getContentResolver(),
                     Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            Log.d(Const.LOG_TAG, "Enabled accessiblity services: " + settingValue);
             if (settingValue != null) {
                 TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
                 splitter.setString(settingValue);
                 while (splitter.hasNext()) {
                     String accessibilityService = splitter.next();
                     if (accessibilityService.equalsIgnoreCase(service)) {
+                        Log.d(Const.LOG_TAG, "Accessibility is enabled");
                         return true;
                     }
                 }
             }
         }
 
+        Log.d(Const.LOG_TAG, "Accessibility not enabled");
         return false;
     }
 

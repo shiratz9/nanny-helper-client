@@ -353,7 +353,14 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         stopService(intent);
         intent = new Intent(MainActivity.this, GestureDispatchService.class);
         stopService(intent);
-        finishAffinity();
+        try {
+            finishAffinity();
+        } catch (Exception e) {
+            // On some Android 8 devices:
+            // Fatal Exception: java.lang.IllegalStateException
+            // Can not be called to deliver a result
+            e.printStackTrace();
+        }
         System.exit(0);
     }
 
