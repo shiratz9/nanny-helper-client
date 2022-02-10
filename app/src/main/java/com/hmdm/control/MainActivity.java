@@ -176,24 +176,33 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
 
     private void checkAccessibility() {
         if (!Utils.isAccessibilityPermissionGranted(this)) {
-            textViewConnect.setVisibility(View.INVISIBLE);
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.accessibility_hint)
-                    .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                            try {
-                                startActivityForResult(intent, 0);
-                            } catch (Exception e) {
-                                // Accessibility settings cannot be opened
-                                reportAccessibilityUnavailable();
-                            }
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
+            // Sometimes this method returns false for an unknown reason;
+            // Let's try to repeat the request in 1/2 sec
+            handler.postDelayed(() -> {
+                if (!Utils.isAccessibilityPermissionGranted(this)) {
+                    textViewConnect.setVisibility(View.INVISIBLE);
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.accessibility_hint)
+                            .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                                    try {
+                                        startActivityForResult(intent, 0);
+                                    } catch (Exception e) {
+                                        // Accessibility settings cannot be opened
+                                        reportAccessibilityUnavailable();
+                                    }
+                                }
+                            })
+                            .setCancelable(false)
+                            .create()
+                            .show();
+                } else {
+                    configureAndConnect();
+                }
+
+            }, 500);
         } else {
             configureAndConnect();
         }
@@ -353,15 +362,22 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         stopService(intent);
         intent = new Intent(MainActivity.this, GestureDispatchService.class);
         stopService(intent);
-        try {
-            finishAffinity();
-        } catch (Exception e) {
-            // On some Android 8 devices:
-            // Fatal Exception: java.lang.IllegalStateException
-            // Can not be called to deliver a result
-            e.printStackTrace();
-        }
-        System.exit(0);
+
+        // Delayed exit to let services gracefully finish their work
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    finishAffinity();
+                } catch (Exception e) {
+                    // On some Android 8 devices:
+                    // Fatal Exception: java.lang.IllegalStateException
+                    // Can not be called to deliver a result
+                    e.printStackTrace();
+                }
+                System.exit(0);
+            }
+        }, 1000);
     }
 
     private void updateUI() {

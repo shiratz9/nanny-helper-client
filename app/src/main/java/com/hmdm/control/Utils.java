@@ -62,7 +62,7 @@ public class Utils {
             String settingValue = Settings.Secure.getString(
                     context.getApplicationContext().getContentResolver(),
                     Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-            Log.d(Const.LOG_TAG, "Enabled accessiblity services: " + settingValue);
+            Log.d(Const.LOG_TAG, "Enabled accessibility services: " + settingValue);
             if (settingValue != null) {
                 TextUtils.SimpleStringSplitter splitter = mStringColonSplitter;
                 splitter.setString(settingValue);
