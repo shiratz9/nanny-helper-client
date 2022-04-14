@@ -89,6 +89,7 @@
     <string name="message_copied">Die Fehlermeldung wurde in die Zwischenablage kopiert</string>
     <string name="close">Schließen</string>
     <string name="accessibility_unavailable_error">Ach nein! Es sieht so aus, als ob die von Headwind Fernzugriff benötigten Eingabehilfen auf Ihrem Gerät nicht verfügbar sind! Bitte kontaktieren Sie die Entwickler unter https://headwind-remote.com und geben Sie an, welches Ihr Gerätemodell ist. Wir hoffen, dass es in Zukunft unterstützt wird und Ihre Hilfe wird geschätzt!</string>
+    <string name="overlays_not_supported">Leider werden Overlays von Ihrem Gerät nicht unterstützt.</string>
 
     <string-array name="bitrates">
         <item>128 kbps</item>

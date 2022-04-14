@@ -36,6 +36,8 @@ public class Const {
     public static final int MAX_SHARED_SCREEN_WIDTH = 800;
     public static final int MAX_SHARED_SCREEN_HEIGHT = 800;
 
+    public static final double FLASHING_DOT_RELATIVE_SIZE = 0.02;
+
     public static final int STATE_DISCONNECTED = 0;
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;

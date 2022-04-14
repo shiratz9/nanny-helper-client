@@ -724,7 +724,12 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
     }
 
     public ImageView createOverlayDot() {
-        int size = getResources().getDimensionPixelOffset(R.dimen.overlay_dot_size);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int maxSize = displayMetrics.widthPixels > displayMetrics.heightPixels ?
+                displayMetrics.widthPixels : displayMetrics.heightPixels;
+        int size = (int)(Const.FLASHING_DOT_RELATIVE_SIZE * maxSize);
+
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(size, size,
                 Utils.OverlayWindowType(),
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE

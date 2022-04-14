@@ -34,6 +34,7 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -175,7 +176,12 @@ public class Utils {
                 .setPositiveButton(R.string.continue_button, (dialog, which) -> {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                             Uri.parse("package:" + activity.getPackageName()));
-                    activity.startActivityForResult(intent, Const.REQUEST_PERMISSION_OVERLAY);
+                    try {
+                        activity.startActivityForResult(intent, Const.REQUEST_PERMISSION_OVERLAY);
+                    } catch (/* ActivityNotFound*/Exception e) {
+                        Toast.makeText(activity, R.string.overlays_not_supported, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
                 })
                 .setCancelable(false);
         if (canCancel) {

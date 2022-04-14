@@ -89,6 +89,7 @@
     <string name="message_copied">The error message has been copied to the clipboard</string>
     <string name="close">Close</string>
     <string name="accessibility_unavailable_error">Oh, no! Looks like Accessibility services required by Headwind Remote are not available on your device! Please contact the developers at https://headwind-remote.com and report which is your device model. We hope it will be supported in the future and your help is appreciated!</string>
+    <string name="overlays_not_supported">Unfortunately overlays are not supported by your device.</string>
 
     <string-array name="bitrates">
         <item>128 kbps</item>
