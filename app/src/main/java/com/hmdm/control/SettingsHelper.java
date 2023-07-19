@@ -36,6 +36,7 @@ public class SettingsHelper {
     public static final String KEY_TRANSLATE_AUDIO = "translate_audio";
     public static final String KEY_BITRATE = "bitrate";
     public static final String KEY_FRAME_RATE = "frame_rate";
+    public static final String KEY_FORCE_REFRESH_SEC = "force_refresh_sec";
     public static final String KEY_TEST_DST_IP = "dst_ip";
     public static final String KEY_VIDEO_SCALE = "video_scale";
     public static final String KEY_NOTIFY_SHARING = "notify_sharing";

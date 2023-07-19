@@ -309,6 +309,9 @@ public class GestureDispatchService extends AccessibilityService {
     }
 
     private AccessibilityNodeInfo findFocusedField(AccessibilityNodeInfo node) {
+        if (node == null) {
+            return null;
+        }
         if (node.isEditable() && node.isFocused()) {
             return node;
         }

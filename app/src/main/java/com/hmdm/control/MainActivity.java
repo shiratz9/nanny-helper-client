@@ -181,23 +181,31 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
             handler.postDelayed(() -> {
                 if (!Utils.isAccessibilityPermissionGranted(this)) {
                     textViewConnect.setVisibility(View.INVISIBLE);
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.accessibility_hint)
-                            .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                                    try {
-                                        startActivityForResult(intent, 0);
-                                    } catch (Exception e) {
-                                        // Accessibility settings cannot be opened
-                                        reportAccessibilityUnavailable();
+                    try {
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.accessibility_hint)
+                                .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                                        try {
+                                            startActivityForResult(intent, 0);
+                                        } catch (Exception e) {
+                                            // Accessibility settings cannot be opened
+                                            reportAccessibilityUnavailable();
+                                        }
                                     }
-                                }
-                            })
-                            .setCancelable(false)
-                            .create()
-                            .show();
+                                })
+                                .setCancelable(false)
+                                .create()
+                                .show();
+                    } catch (Exception e) {
+                        // The config may change when the app is in the background
+                        // In this case, we will get an exception while trying to use UI
+                        // Just ignore this error
+                        e.printStackTrace();
+                    }
+
                 } else {
                     configureAndConnect();
                 }
@@ -566,6 +574,7 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
             ScreenSharingHelper.configure(this, settingsHelper.getBoolean(SettingsHelper.KEY_TRANSLATE_AUDIO),
                     settingsHelper.getInt(SettingsHelper.KEY_FRAME_RATE),
                     settingsHelper.getInt(SettingsHelper.KEY_BITRATE),
+                    settingsHelper.getInt(SettingsHelper.KEY_FORCE_REFRESH_SEC),
                     rtpHost,
                     rtpAudioPort,
                     rtpVideoPort
@@ -680,7 +689,9 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         notifyGestureService(Const.ACTION_SCREEN_SHARING_START);
         if (settingsHelper.getBoolean(SettingsHelper.KEY_NOTIFY_SHARING)) {
             // Show a flashing dot
-            Utils.lockDeviceRotation(this, true);
+            if (BuildConfig.LOCK_ORIENTATION) {
+                Utils.lockDeviceRotation(this, true);
+            }
             overlayDot = createOverlayDot();
             overlayDotAlpha = 0;
             overlayDotDirection = 1;
@@ -713,7 +724,9 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
                 wm.removeView(overlayDot);
                 overlayDot = null;
             }
-            Utils.lockDeviceRotation(this, false);
+            if (BuildConfig.LOCK_ORIENTATION) {
+                Utils.lockDeviceRotation(this, false);
+            }
         }
     }
 

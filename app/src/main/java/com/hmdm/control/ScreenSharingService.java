@@ -26,6 +26,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.MediaCodec;
@@ -71,6 +72,7 @@ public class ScreenSharingService extends Service {
     private int mRtpVideoPort;
     private int mVideoFrameRate;
     private int mVideoBitrate;
+    private int mForceRefreshSec;
 
     private MediaProjectionManager mProjectionManager;
     private MediaProjection mMediaProjection;
@@ -93,6 +95,7 @@ public class ScreenSharingService extends Service {
     public static final String ATTR_AUDIO = "audio";
     public static final String ATTR_FRAME_RATE = "frameRate";
     public static final String ATTR_BITRATE = "bitrate";
+    public static final String ATTR_FORCE_REFRESH_SEC = "forceRefreshSec";
     public static final String ATTR_HOST = "host";
     public static final String ATTR_AUDIO_PORT = "audioPort";
     public static final String ATTR_VIDEO_PORT = "videoPort";
@@ -155,6 +158,7 @@ public class ScreenSharingService extends Service {
             configure(intent.getBooleanExtra(ATTR_AUDIO, false),
                     intent.getIntExtra(ATTR_FRAME_RATE, 0),
                     intent.getIntExtra(ATTR_BITRATE, 0),
+                    intent.getIntExtra(ATTR_FORCE_REFRESH_SEC, 0),
                     intent.getStringExtra(ATTR_HOST),
                     intent.getIntExtra(ATTR_AUDIO_PORT, 0),
                     intent.getIntExtra(ATTR_VIDEO_PORT, 0));
@@ -175,10 +179,22 @@ public class ScreenSharingService extends Service {
         return Service.START_STICKY;
     }
 
-    private void configure(boolean audio, int videoFrameRate, int videoBitRate, String host, int audioPort, int videoPort) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // TODO: change the screen sharing orientation (not sure how to do that!)
+    }
+
+    private void configure(boolean audio, int videoFrameRate, int videoBitRate, int forceRefreshSec,
+                           String host, int audioPort, int videoPort) {
         mVideoFrameRate = videoFrameRate;
         mVideoBitrate = videoBitRate;
+        mForceRefreshSec = forceRefreshSec;
         Log.d(Const.LOG_TAG, "ScreenSharingService: frameRate=" + mVideoFrameRate + ", bitrate=" + mVideoBitrate);
+        if (forceRefreshSec > 0) {
+            Log.d(Const.LOG_TAG, "Turning on forcible screen refresh within " + forceRefreshSec + " sec");
+        }
 
         // This is executed in the background because the operation requires host resolution
         new AsyncTask<Void,Void,Void>() {
@@ -328,6 +344,9 @@ public class ScreenSharingService extends Service {
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, mVideoFrameRate);
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+        if (mForceRefreshSec > 0) {
+            mediaFormat.setInteger(MediaFormat.KEY_INTRA_REFRESH_PERIOD, mVideoFrameRate * mForceRefreshSec);
+        }
         // This method call may throw CodecException!
         try {
             mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
