@@ -47,7 +47,7 @@
     <string name="translate_audio">Translate audio</string>
     <string name="bitrate">Bitrate</string>
     <string name="frame_rate">Frame rate</string>
-    <string name="enter_correct_url">Please enter a correct server URL starting with http:// or https://</string>
+    <string name="enter_correct_url">Please enter a correct server URL starting with https://</string>
     <string name="enter_secret">Please enter a non-empty secret</string>
     <string name="enter_device_name">Please enter a non-empty device name</string>
     <string name="accessibility_hint">This app uses accessibility service to simulate user interface events. The accessibility permissions screen will now open. Please grant accessibility permissions to the "Headwind Remote" app.</string>

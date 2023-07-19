@@ -47,7 +47,7 @@
     <string name="translate_audio">Audio übersetzen</string>
     <string name="bitrate">Bitrate</string>
     <string name="frame_rate">Bildrate</string>
-    <string name="enter_correct_url">Bitte geben Sie eine korrekte Server-URL ein, die mit http:// oder https:// beginnt</string>
+    <string name="enter_correct_url">Bitte geben Sie eine korrekte Server-URL ein, die mit https:// beginnt</string>
     <string name="enter_secret">Bitte geben Sie ein nicht leeres Geheimnis ein</string>
     <string name="enter_device_name">Bitte geben Sie einen nicht leeren Gerätenamen ein</string>
     <string name="accessibility_hint">Diese App verwendet den Eingabehilfedienst, um Ereignisse der Benutzeroberfläche zu simulieren. Der Bildschirm mit den Eingabehilfen wird jetzt geöffnet. Bitte erteilen Sie der App Zugriffsberechtigungen.</string>

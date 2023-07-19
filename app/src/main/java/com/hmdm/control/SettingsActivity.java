@@ -203,7 +203,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private boolean saveSettings() {
         String serverUrl = editTextServerUrl.getText().toString();
-        if (!serverUrl.startsWith("http://") && !serverUrl.startsWith("https://")) {
+        if (!serverUrl.startsWith("https://")) {
             Toast.makeText(this, R.string.enter_correct_url, Toast.LENGTH_LONG).show();
             return false;
         }
