@@ -34,8 +34,8 @@ android {
         applicationId "com.hmdm.control"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 38
-        versionName "1.38"
+        versionCode 201
+        versionName "2.01"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

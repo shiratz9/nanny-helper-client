@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
     private final static String ATTR_ADMIN_NAME = "adminName";
 
     private boolean needReconnect = false;
+    private boolean accessibilityActivityShown = false;
 
     private MediaProjectionManager projectionManager;
 
@@ -170,8 +171,16 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         super.onResume();
         updateUI();
 
-        startService(new Intent(MainActivity.this, GestureDispatchService.class));
-        checkAccessibility();
+        if (!settingsHelper.getBoolean(SettingsHelper.KEY_POLICY_AGREE)) {
+            startActivityForResult(new Intent(MainActivity.this, FirstStartActivity.class),
+                    Const.REQUEST_POLICY_AGREE);
+        } else if (accessibilityActivityShown) {
+            accessibilityActivityShown = false;
+            // Do nothing as we've just returned from Accessibility Helper activity
+        } else {
+            startService(new Intent(MainActivity.this, GestureDispatchService.class));
+            checkAccessibility();
+        }
     }
 
     private void checkAccessibility() {
@@ -181,31 +190,7 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
             handler.postDelayed(() -> {
                 if (!Utils.isAccessibilityPermissionGranted(this)) {
                     textViewConnect.setVisibility(View.INVISIBLE);
-                    try {
-                        new AlertDialog.Builder(this)
-                                .setMessage(R.string.accessibility_hint)
-                                .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                                        try {
-                                            startActivityForResult(intent, 0);
-                                        } catch (Exception e) {
-                                            // Accessibility settings cannot be opened
-                                            reportAccessibilityUnavailable();
-                                        }
-                                    }
-                                })
-                                .setCancelable(false)
-                                .create()
-                                .show();
-                    } catch (Exception e) {
-                        // The config may change when the app is in the background
-                        // In this case, we will get an exception while trying to use UI
-                        // Just ignore this error
-                        e.printStackTrace();
-                    }
-
+                    requestAccessibility();
                 } else {
                     configureAndConnect();
                 }
@@ -214,6 +199,38 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         } else {
             configureAndConnect();
         }
+    }
+
+    private void requestAccessibilityLegacy() {
+        try {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.accessibility_hint)
+                    .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                            try {
+                                startActivityForResult(intent, 0);
+                            } catch (Exception e) {
+                                // Accessibility settings cannot be opened
+                                reportAccessibilityUnavailable();
+                            }
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        } catch (Exception e) {
+            // The config may change when the app is in the background
+            // In this case, we will get an exception while trying to use UI
+            // Just ignore this error
+            e.printStackTrace();
+        }
+    }
+
+    private void requestAccessibility() {
+        startActivityForResult(new Intent(MainActivity.this, AccessibilityActivity.class),
+                Const.REQUEST_ACCESSIBILITY_HELP);
     }
 
     private void reportAccessibilityUnavailable() {
@@ -334,6 +351,21 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
                 scheduleExitOnIdle();
             } else {
                 ScreenSharingHelper.startSharing(this, resultCode, data);
+            }
+        } else if (requestCode == Const.REQUEST_POLICY_AGREE) {
+            if (resultCode == RESULT_OK) {
+                settingsHelper.setBoolean(SettingsHelper.KEY_POLICY_AGREE, true);
+            } else {
+                finish();
+            }
+        } else if (requestCode == Const.REQUEST_ACCESSIBILITY_HELP) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            accessibilityActivityShown = true;
+            try {
+                startActivityForResult(intent, 0);
+            } catch (Exception e) {
+                // Accessibility settings cannot be opened
+                reportAccessibilityUnavailable();
             }
         }
     }
@@ -467,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements SharingEngineJanu
         ImageView imageView = new ImageView(this);
         imageView.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
         new AlertDialog.Builder(this)
-                .setTitle(R.string.about_title)
+                .setTitle(R.string.app_name)
                 .setMessage(getString(R.string.about_message, BuildConfig.VERSION_NAME, BuildConfig.VARIANT))
                 .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
                 .create()

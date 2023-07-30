@@ -19,8 +19,7 @@
 
 <resources>
     <string name="app_name">Headwind Fernzugriff</string>
-    <string name="about_title">Headwind Fernzugriff</string>
-    <string name="about_message">\n\nMobiler Agent für den Open Source Android-Fernsteuerungsdienst.\n\nVersion: %s\n\nVariant: %s\n\n(c) 2022 h-mdm.com</string>
+    <string name="about_message">\n\nMobiler Agent für den Open Source Android-Fernsteuerungsdienst.\n\nVersion: %s\n\nVariant: %s\n\n(c) 2023 h-mdm.com</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über die App</string>
     <string name="back_pressed">Tippen Sie auf Startseite, um den Bildschirm auszublenden. Öffnen Sie die Plugin-Aktivität über die Schaltfläche "Letzte", um die Bildschirmfreigabe zu beenden.</string>
@@ -50,7 +49,30 @@
     <string name="enter_correct_url">Bitte geben Sie eine korrekte Server-URL ein, die mit https:// beginnt</string>
     <string name="enter_secret">Bitte geben Sie ein nicht leeres Geheimnis ein</string>
     <string name="enter_device_name">Bitte geben Sie einen nicht leeren Gerätenamen ein</string>
-    <string name="accessibility_hint">Diese App verwendet den Eingabehilfedienst, um Ereignisse der Benutzeroberfläche zu simulieren. Der Bildschirm mit den Eingabehilfen wird jetzt geöffnet. Bitte erteilen Sie der App Zugriffsberechtigungen.</string>
+    <string name="accessibility_hint">&lt;h2&gt;BITTE EINGABEHILFE ZULASSEN&lt;/h2&gt;
+        &lt;br&gt;&lt;br&gt;
+        &lt;big&gt;%s verwendet den Eingabehilfedienst, um Ereignisse der Benutzeroberfläche zu simulieren.
+        &lt;br&gt;&lt;br&gt;
+        Der Bildschirm mit den Eingabehilfen wird jetzt geöffnet. Bitte erteilen Sie Zugriffsberechtigungen zur %s.
+        &lt;br&gt;&lt;br&gt;
+        1. Suchen Sie den Menüpunkt \"Installierte Apps\" und klicken Sie darauf.
+        &lt;br&gt;
+        &lt;img src=\"accessibility1\"&gt;
+        &lt;br&gt;&lt;br&gt;
+        2. Klicken \"%s\"
+        &lt;br&gt;
+        &lt;img src=\"accessibility2\"&gt;
+        &lt;br&gt;&lt;br&gt;
+        3. Die Berechtigung ist standardmäßig \"aus\". Klicken Sie auf den oberen Schalter.
+        &lt;br&gt;
+        &lt;img src=\"accessibility3\"&gt;
+        &lt;br&gt;&lt;br&gt;
+        4. Bestätigen Sie die Erteilung der Berechtigung, indem Sie auf \"Zulassen\" klicken.
+        &lt;br&gt;
+        &lt;img src=\"accessibility4\"&gt;
+        &lt;br&gt;&lt;br&gt;
+        5. Klicken Sie auf \"Zurück\", um die Eingabehilfeeinstellungen zu schließen.&lt;/big&gt;
+    </string>
     <string name="continue_button">Weiter</string>
     <string name="device_name">Gerätename</string>
     <string name="device_name_hint">Z.B. Mein Gerät</string>
@@ -90,6 +112,44 @@
     <string name="close">Schließen</string>
     <string name="accessibility_unavailable_error">Ach nein! Es sieht so aus, als ob die von Headwind Fernzugriff benötigten Eingabehilfen auf Ihrem Gerät nicht verfügbar sind! Bitte kontaktieren Sie die Entwickler unter https://headwind-remote.com und geben Sie an, welches Ihr Gerätemodell ist. Wir hoffen, dass es in Zukunft unterstützt wird und Ihre Hilfe wird geschätzt!</string>
     <string name="overlays_not_supported">Leider werden Overlays von Ihrem Gerät nicht unterstützt.</string>
+    <string name="usage_policy">&lt;h2&gt;OFFENLEGUNG DER NUTZUNG&lt;/h2&gt;
+&lt;br&gt;
+Damit der Remote-Administrator dieses Gerät aus der Ferne steuern kann, müssen Sie der %s vertrauliche Berechtigungen erteilen.
+&lt;br&gt;&lt;br&gt;
+%s
+&lt;br&gt;&lt;br&gt;
+%s
+&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Überlagerungen zeichnen&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+Diese Berechtigung ist OPTIONAL. Sie wird verwendet, um einen blinkenden Punkt anzuzeigen, der anzeigt, dass Ihr Gerät ferngesteuert wird, und um einen \"Keep-Alive\"-Netzwerkverkehr zu generieren, der die Screencast-Qualität verbessert.
+&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Anmelderichtlinien&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+%s bietet keine Anmeldemöglichkeit. Die Remote-Sitzung ist durch einmalige Sitzungs-IDs und PIN-Codes geschützt. Bewahren Sie diese Werte vor Beginn der Sitzung sicher auf und stellen Sie sicher, dass sie nur an eine autorisierte Partei gesendet werden.
+&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Speicherung persönlicher und sensibler Daten&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+Während der Fernsteuerungssitzung,
+&lt;br&gt;&lt;br&gt;
+&lt;ul&gt;
+&lt;li&gt; der Bildschirm Ihres Geräts kann persönliche oder sensible Daten enthalten. Diese Daten werden ausschließlich an den Arbeitsplatz des Remote-Administrators übermittelt, dessen URL in den App-Einstellungen eingerichtet wird.&lt;/li&gt;
+&lt;br&gt;
+&lt;li&gt; Der Remote-Administrator kann Passwortfelder ausfüllen, die vertrauliche oder persönliche Informationen enthalten können. Die Eingaben des Remote-Administrators können vorübergehend im Gerätespeicher gespeichert werden, um das Benutzererlebnis des Remote-Administrators zu verbessern.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+Persönliche oder sensible Daten werden nicht gespeichert, zwischengespeichert oder an Websites Dritter übermittelt. %s fängt keine vom Benutzer des mobilen Geräts eingegebenen Anmeldeinformationen ab.
+    </string>
+    <string name="accessibility_policy">&lt;b&gt;Eingabehilfedienste&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+Diese Berechtigung ist ERFORDERLICH, um vom Remote-Administrator ausgeführte Gesten zu simulieren.</string>
+    <string name="screen_sharing_policy">&lt;b&gt;Bildschirmteilung&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+Diese Berechtigung ist ERFORDERLICH, um den Bildschirminhalt abzurufen und ihn dem Remote-Administrator anzuzeigen.
+</string>
+    <string name="privacy_policy">Datenschutz</string>
+    <string name="agree">Ich stimme zu</string>
+    <string name="exit">Beenden</string>
 
     <string-array name="bitrates">
         <item>128 kbps</item>

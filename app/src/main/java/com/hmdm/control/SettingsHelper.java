@@ -42,6 +42,7 @@ public class SettingsHelper {
     public static final String KEY_NOTIFY_SHARING = "notify_sharing";
     public static final String KEY_IDLE_TIMEOUT = "idle_timeout";
     public static final String KEY_PING_TIMEOUT = "session_timeout";
+    public static final String KEY_POLICY_AGREE = "policy_agree";
 
     private SharedPreferences sharedPreferences;
 
