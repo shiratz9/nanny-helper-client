@@ -6,6 +6,16 @@ Headwind Remote website: https://headwind-remote.com
 
 The Headwind Remote project is completely open source, both client and server modules are available. 
 
+## Software safety
+
+Unfortunately there was an issue when Headwind Remote and applications based on its source code were falsely detected as malware by Google Play Protect which damaged developer accounts. 
+
+Headwind Remote has been thoroughly reviewed and tested by an independent cybersecurity company https://aegisbyte.com and they confirmed the absence of any malicious code. Additionally, they have found no high-risk vulnerabilities. The audit report is available [here](https://headwind-remote.com/hremote_security_assessment_aegisbytes_2307.pdf).
+
+Information about the usage of sensitive permissions could be found [here](https://headwind-remote.com/privacy-policy/).
+
+We believe it is now safe to use Headwind Remote as a base software for your projects. In the case of any problems with Google, please contact the [developer](https://h-mdm.com/contact-us/), we are ready to help.
+
 ## Mobile device management
 
 The Headwind Remote project is sponsored by [Headwind MDM](https://h-mdm.com), the open source mobile device management system for Android. 
