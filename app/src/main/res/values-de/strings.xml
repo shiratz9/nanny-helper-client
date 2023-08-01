@@ -117,9 +117,7 @@
 Damit der Remote-Administrator dieses Gerät aus der Ferne steuern kann, müssen Sie der %s vertrauliche Berechtigungen erteilen.
 &lt;br&gt;&lt;br&gt;
 %s
-&lt;br&gt;&lt;br&gt;
 %s
-&lt;br&gt;&lt;br&gt;
 &lt;b&gt;Überlagerungen zeichnen&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
 Diese Berechtigung ist OPTIONAL. Sie wird verwendet, um einen blinkenden Punkt anzuzeigen, der anzeigt, dass Ihr Gerät ferngesteuert wird, und um einen \"Keep-Alive\"-Netzwerkverkehr zu generieren, der die Screencast-Qualität verbessert.
@@ -142,10 +140,13 @@ Persönliche oder sensible Daten werden nicht gespeichert, zwischengespeichert o
     </string>
     <string name="accessibility_policy">&lt;b&gt;Eingabehilfedienste&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
-Diese Berechtigung ist ERFORDERLICH, um vom Remote-Administrator ausgeführte Gesten zu simulieren.</string>
+Diese Berechtigung ist ERFORDERLICH, um vom Remote-Administrator ausgeführte Gesten zu simulieren.
+&lt;br&gt;&lt;br&gt;
+</string>
     <string name="screen_sharing_policy">&lt;b&gt;Bildschirmteilung&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
 Diese Berechtigung ist ERFORDERLICH, um den Bildschirminhalt abzurufen und ihn dem Remote-Administrator anzuzeigen.
+&lt;br&gt;&lt;br&gt;
 </string>
     <string name="privacy_policy">Datenschutz</string>
     <string name="agree">Ich stimme zu</string>
